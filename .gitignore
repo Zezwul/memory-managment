@@ -1,0 +1,5 @@
+*.out
+massif.*
+memory
+memory-layout
+*.s
