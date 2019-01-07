@@ -3,23 +3,25 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-void foo()
+void foo(uint32_t numbernOfElements)
 {
-    volatile int t[100000000];
-    (void)t;
+    uint32_t array[numbernOfElements];
+    (void)array;
 }
-
-uint32_t constant;
 
 int main(void)
 {
-    static int a;
-    static int tab[100];
+    //created only for memory layout in memory section
+    static int staticVariable;
+    static int staticArray[100];
+    (void)staticVariable;
+    (void)staticArray;
+
     clock_t start, stop;
     double cpuTimeUsed;
     srand(time(NULL));
 
-    uint64_t numberOfAllocations = 1000;
+    uint64_t numberOfAllocations = 1000000000;
     uint64_t exampleValue = 100;
 
     const uint64_t numberOfElements = 10000;
@@ -49,6 +51,7 @@ int main(void)
 
     start = clock();
     stop = clock() - start;
+    foo(numberOfElements);
     cpuTimeUsed = ((double)stop) / CLOCKS_PER_SEC;
     printf("stack allocation time--%f[s]\n", cpuTimeUsed);
 
@@ -73,6 +76,6 @@ int main(void)
     string2[4] = 'T';
     printf("%s\n", string2);
 
-    string1[4] = 'T';
-    printf("%s\n", string1); //segmentation fault due to try of changing read-only memory block
+    string1[4] = 'T'; //segmentation fault due to try of changing read-only memory block
+    printf("%s\n", string1);
 }
