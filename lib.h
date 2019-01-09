@@ -18,9 +18,11 @@
     printf("%f[s]\n", cpuTimeUsed);
 
 #define RAII(free_func) __attribute__((cleanup (free_func)))
+#define ERROR_CODE 666
 
 #include <inttypes.h>
 
+void allocateStaticArray(uint64_t numbernOfElements);
 void freeInt(uint64_t **i);
 uint32_t compare(const void * first, const void * second);
 void swap(uint64_t* first, uint64_t* second);

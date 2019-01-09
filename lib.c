@@ -1,6 +1,12 @@
 #include "lib.h"
 #include <stdlib.h>
 
+void allocateStaticArray(uint64_t numbernOfElements)
+{
+    uint32_t array[numbernOfElements];
+    (void)array;
+}
+
 void freeInt(uint64_t **intToFree)
 {
     free(*intToFree);
@@ -11,9 +17,9 @@ uint32_t compare(const void* first, const void* second)
     uint64_t _first = *(uint64_t*)first;
     uint64_t _second = *(uint64_t*)second;
 
-    if(_first < _second)
+    if (_first < _second)
     {
-        return -1;
+        return ERROR_CODE;
     }
     else if (_first == _second)
     {
@@ -21,7 +27,7 @@ uint32_t compare(const void* first, const void* second)
     }
     else
     {
-        return 1;
+        return ERROR_CODE;
     }
 }
 
@@ -50,6 +56,6 @@ void randomizeArray(uint64_t* array, uint64_t sizeOfArray)
 {
     for (uint64_t i = 0; i < sizeOfArray; ++i)
     {
-        array[i] = rand() % sizeOfArray;
+        array[i] = (uint64_t)rand() % sizeOfArray;
     }
 }

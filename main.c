@@ -3,15 +3,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-void foo(uint32_t numbernOfElements)
-{
-    uint32_t array[numbernOfElements];
-    (void)array;
-}
-
 int main(void)
 {
-    //created only for memory layout in memory section
+    //created unused statics are only for explaining memory layout in memory section
     static int staticVariable;
     static int staticArray[100];
     (void)staticVariable;
@@ -19,7 +13,7 @@ int main(void)
 
     clock_t start, stop;
     double cpuTimeUsed;
-    srand(time(NULL));
+    srand((uint32_t)time(NULL));
 
     uint64_t numberOfAllocations = 1000000000;
     uint64_t exampleValue = 100;
@@ -51,7 +45,7 @@ int main(void)
 
     start = clock();
     stop = clock() - start;
-    foo(numberOfElements);
+    allocateStaticArray(numberOfElements);
     cpuTimeUsed = ((double)stop) / CLOCKS_PER_SEC;
     printf("stack allocation time--%f[s]\n", cpuTimeUsed);
 
@@ -67,7 +61,7 @@ int main(void)
 
     printf("\n");
 
-    char* string1 = "string1"; //read-only (literal is constant)
+    /*const*/ char* string1 = "string1"; //read-only (literal is constant)
     printf("%s\n", string1);
 
     char string2[7] = "string2"; //buffer allocated on the stack, filled with literals
@@ -76,6 +70,6 @@ int main(void)
     string2[4] = 'T';
     printf("%s\n", string2);
 
-    string1[4] = 'T'; //segmentation fault due to try of changing read-only memory block
+    //string1[4] = 'T'; //segmentation fault due to try of changing read-only memory block
     printf("%s\n", string1);
 }
